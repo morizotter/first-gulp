@@ -20,9 +20,9 @@ gulp.task 'compile-js', ->
     .pipe gulp.dest('dist/asset/js')
 
 gulp.task 'compile-sass', ->
-    gulp.src 'source/scss/**/*.scss'
-      .pipe sass()
-      .pipe gulp.dest('source/css')
+  gulp.src 'source/scss/**/*.scss'
+    .pipe sass()
+    .pipe gulp.dest('source/css')
 
 gulp.task 'compile-css', ->
   compileFileName = 'application.css'
