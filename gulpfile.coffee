@@ -4,6 +4,8 @@ uglify      = require 'gulp-uglify'
 sass        = require 'gulp-sass'
 minifyCss   = require 'gulp-minify-css'
 concat      = require 'gulp-concat'
+watch       = require 'gulp-watch'
+runSequence = require 'run-sequence'
 
 gulp.task 'compile-coffee', () ->
   gulp.src 'source/coffee/**/*.coffee'
@@ -29,4 +31,10 @@ gulp.task 'compile-css', () ->
     .pipe minifyCss()
     .pipe gulp.dest('dist/css')
 
-gulp.task 'compile', ['compile-coffee', 'compile-sass', 'compile-js', 'compile-css']
+gulp.task 'compile', -> runSequence(
+  ['compile-coffee','compile-sass'],
+  ['compile-js', 'compile-css']
+)
+
+gulp.task 'watch', ->
+  gulp.watch ['source/scss/**/*.scss', 'source/coffee/**/*.coffee'], ['compile']
