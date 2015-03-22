@@ -20,21 +20,20 @@ gulp.task 'uglify', ->
   .pipe uglify()
   .pipe gulp.dest('dist/asset/js')
 
-gulp.task('compass', ->
+gulp.task 'compass', ->
     gulp.src 'source/scss/**/*.scss'
     .pipe(compass({
       config_file: 'config.rb'
       css: 'source/css/'
       sass: 'source/scss/'
     }))
-  )
 
 gulp.task 'minify', ->
   compileFileName = 'application.css'
   gulp.src 'source/css/**/*.css'
-    .pipe concat(compileFileName)
-    .pipe minifyCss()
-    .pipe gulp.dest('dist/asset/css')
+  .pipe concat(compileFileName)
+  .pipe minifyCss()
+  .pipe gulp.dest('dist/asset/css')
 
 gulp.task 'copy', ->
   gulp.src([
@@ -46,15 +45,14 @@ gulp.task 'copy', ->
   ])
   .pipe(gulp.dest('dist/asset/image'))
 
-gulp.task('webserver', ->
+gulp.task 'webserver', ->
   gulp.src('dist')
-    .pipe(webserver({
-      livereload: true
-      port: 9000
-      fallback: 'dist/index.html'
-      open: true
-      }))
-  )
+  .pipe(webserver({
+    livereload: true
+    port: 9000
+    fallback: 'dist/index.html'
+    open: true
+    }))
 
 gulp.task 'build', ->
  runSequence(
