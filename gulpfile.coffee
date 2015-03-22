@@ -5,6 +5,7 @@ sass        = require 'gulp-sass'
 minifyCss   = require 'gulp-minify-css'
 concat      = require 'gulp-concat'
 watch       = require 'gulp-watch'
+webserver   = require 'gulp-webserver'
 runSequence = require 'run-sequence'
 
 gulp.task 'compile-coffee', ->
@@ -37,11 +38,21 @@ gulp.task 'copy', ->
   ])
   .pipe(gulp.dest('dist'))
 
+gulp.task('webserver', ->
+  gulp.src('dist')
+    .pipe(webserver({
+      livereload: true
+      port: 9000
+      fallback: 'dist/index.html'
+      open: true
+      }))
+  )
+
 gulp.task 'compile', -> runSequence(
   ['compile-coffee','compile-sass'],
   ['compile-js', 'compile-css'],
   'copy'
-)
+  )
 
 gulp.task 'watch', ->
   gulp.watch ['source/scss/**/*.scss', 'source/coffee/**/*.coffee', 'source/app/**/*.html'], ['compile']
