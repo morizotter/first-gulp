@@ -41,6 +41,10 @@ gulp.task 'copy', ->
     'source/app/**/*.html'
   ])
   .pipe(gulp.dest('dist'))
+  gulp.src([
+    'source/image/**/*'
+  ])
+  .pipe(gulp.dest('dist/asset/image'))
 
 gulp.task('webserver', ->
   gulp.src('dist')
