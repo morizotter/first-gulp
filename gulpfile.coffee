@@ -9,50 +9,54 @@ watch       = require 'gulp-watch'
 webserver   = require 'gulp-webserver'
 runSequence = require 'run-sequence'
 
+dir =
+  src: '_source'
+  dist: 'public'
+
 gulp.task 'coffee', ->
-  gulp.src 'source/coffee/**/*.coffee'
+  gulp.src "#{dir.src}/coffee/**/*.coffee"
   .pipe coffee()
-  .pipe gulp.dest 'source/js'
+  .pipe gulp.dest "#{dir.src}/js"
 
 gulp.task 'uglify', ->
   compileFileName = 'application.js'
-  gulp.src 'source/js/**/*.js'
+  gulp.src "#{dir.src}/js/**/*.js"
   .pipe concat(compileFileName)
   .pipe uglify()
-  .pipe gulp.dest 'dist/asset/js'
+  .pipe gulp.dest "#{dir.dist}/asset/js"
 
 gulp.task 'compass', ->
-  gulp.src 'source/scss/**/*.scss'
+  gulp.src "#{dir.src}/scss/**/*.scss"
   .pipe(compass({
     config_file: 'config.rb'
-    css: 'source/css/'
-    sass: 'source/scss/'
+    css: "#{dir.src}/css/"
+    sass: "#{dir.src}/scss/"
   }))
 
 gulp.task 'minify', ->
   compileFileName = 'application.css'
-  gulp.src 'source/css/**/*.css'
+  gulp.src "#{dir.src}/css/**/*.css"
   .pipe concat(compileFileName)
   .pipe minifyCss()
-  .pipe gulp.dest('dist/asset/css')
+  .pipe gulp.dest "#{dir.dist}/asset/css"
 
 gulp.task 'haml', ->
-  gulp.src 'source/app/**/*.haml'
+  gulp.src "#{dir.src}/app/**/*.haml"
   .pipe haml({ doubleQuote: true })
-  .pipe gulp.dest('dist')
+  .pipe gulp.dest "#{dir.dist}"
 
 gulp.task 'copy', ->
   gulp.src([
-    'source/image/**/*'
+    "#{dir.src}/image/**/*"
   ])
-  .pipe gulp.dest('dist/asset/image')
+  .pipe gulp.dest "#{dir.dist}/asset/image"
 
 gulp.task 'webserver', ->
-  gulp.src('dist')
+  gulp.src "#{dir.dist}"
   .pipe(webserver({
     livereload: true
     port: 9000
-    fallback: 'dist/index.html'
+    fallback: "#{dir.dist}/index.html"
     open: true
     })
   )
@@ -65,7 +69,7 @@ gulp.task 'build', ->
   )
 
 gulp.task 'watch', ->
-  gulp.watch ['source/scss/**/*.scss', 'source/coffee/**/*.coffee', 'source/app/**/*.haml'], ['build']
+  gulp.watch ["#{dir.src}/scss/**/*.scss", "#{dir.src}/coffee/**/*.coffee", "#{dir.src}/app/**/*.haml"], ['build']
 
 gulp.task 'serve', ->
   runSequence(
