@@ -1,7 +1,7 @@
 gulp        = require 'gulp'
 coffee      = require 'gulp-coffee'
 uglify      = require 'gulp-uglify'
-sass        = require 'gulp-sass'
+compass     = require 'gulp-compass'
 minifyCss   = require 'gulp-minify-css'
 concat      = require 'gulp-concat'
 watch       = require 'gulp-watch'
@@ -10,20 +10,24 @@ runSequence = require 'run-sequence'
 
 gulp.task 'coffee', ->
   gulp.src 'source/coffee/**/*.coffee'
-    .pipe coffee()
-    .pipe gulp.dest('source/js')
+  .pipe coffee()
+  .pipe gulp.dest('source/js')
 
 gulp.task 'uglify', ->
   compileFileName = 'application.js'
   gulp.src 'source/js/**/*.js'
-    .pipe concat(compileFileName)
-    .pipe uglify()
-    .pipe gulp.dest('dist/asset/js')
+  .pipe concat(compileFileName)
+  .pipe uglify()
+  .pipe gulp.dest('dist/asset/js')
 
-gulp.task 'sass', ->
-  gulp.src 'source/scss/**/*.scss'
-    .pipe sass()
-    .pipe gulp.dest('source/css')
+gulp.task('compass', ->
+    gulp.src 'source/scss/**/*.scss'
+    .pipe(compass({
+      config_file: 'config.rb'
+      css: 'source/css/'
+      sass: 'source/scss/'
+    }))
+  )
 
 gulp.task 'minify', ->
   compileFileName = 'application.css'
@@ -50,13 +54,13 @@ gulp.task('webserver', ->
 
 gulp.task 'build', ->
  runSequence(
-  ['coffee','sass'],
+  ['coffee','compass'],
   ['uglify', 'minify'],
   'copy'
   )
 
 gulp.task 'watch', ->
-  gulp.watch ['source/scss/**/*.scss', 'source/coffee/**/*.coffee', 'source/app/**/*.html'], ['compile']
+  gulp.watch ['source/scss/**/*.scss', 'source/coffee/**/*.coffee', 'source/app/**/*.html'], ['build']
 
 gulp.task 'serve', ->
   runSequence(
