@@ -26,12 +26,3 @@ alert "I knew it!" if elvis?
 
 # Array comprehensions:
 cubes = (math.cube num for num in list)
-
-alert "Tarou"
-alert "Tarou"
-alert "Tarou"
-alert "Tarou"
-alert "Jirou"
-alert "Saburo"
-alert "Shiro"
-alert "goro"

@@ -44,20 +44,4 @@
     return results;
   })();
 
-  alert("Tarou");
-
-  alert("Tarou");
-
-  alert("Tarou");
-
-  alert("Tarou");
-
-  alert("Jirou");
-
-  alert("Saburo");
-
-  alert("Shiro");
-
-  alert("goro");
-
 }).call(this);
