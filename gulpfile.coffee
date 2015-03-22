@@ -21,12 +21,12 @@ gulp.task 'uglify', ->
   .pipe gulp.dest('dist/asset/js')
 
 gulp.task 'compass', ->
-    gulp.src 'source/scss/**/*.scss'
-    .pipe(compass({
-      config_file: 'config.rb'
-      css: 'source/css/'
-      sass: 'source/scss/'
-    }))
+  gulp.src 'source/scss/**/*.scss'
+  .pipe(compass({
+    config_file: 'config.rb'
+    css: 'source/css/'
+    sass: 'source/scss/'
+  }))
 
 gulp.task 'minify', ->
   compileFileName = 'application.css'
@@ -52,7 +52,8 @@ gulp.task 'webserver', ->
     port: 9000
     fallback: 'dist/index.html'
     open: true
-    }))
+    })
+  )
 
 gulp.task 'build', ->
  runSequence(
