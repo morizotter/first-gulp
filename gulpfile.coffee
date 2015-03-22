@@ -8,24 +8,24 @@ watch       = require 'gulp-watch'
 webserver   = require 'gulp-webserver'
 runSequence = require 'run-sequence'
 
-gulp.task 'compile-coffee', ->
+gulp.task 'coffee', ->
   gulp.src 'source/coffee/**/*.coffee'
     .pipe coffee()
     .pipe gulp.dest('source/js')
 
-gulp.task 'compile-js', ->
+gulp.task 'uglify', ->
   compileFileName = 'application.js'
   gulp.src 'source/js/**/*.js'
     .pipe concat(compileFileName)
     .pipe uglify()
     .pipe gulp.dest('dist/asset/js')
 
-gulp.task 'compile-sass', ->
+gulp.task 'sass', ->
   gulp.src 'source/scss/**/*.scss'
     .pipe sass()
     .pipe gulp.dest('source/css')
 
-gulp.task 'compile-css', ->
+gulp.task 'minify', ->
   compileFileName = 'application.css'
   gulp.src 'source/css/**/*.css'
     .pipe concat(compileFileName)
@@ -48,11 +48,18 @@ gulp.task('webserver', ->
       }))
   )
 
-gulp.task 'compile', -> runSequence(
-  ['compile-coffee','compile-sass'],
-  ['compile-js', 'compile-css'],
+gulp.task 'build', ->
+ runSequence(
+  ['coffee','sass'],
+  ['uglify', 'minify'],
   'copy'
   )
 
 gulp.task 'watch', ->
   gulp.watch ['source/scss/**/*.scss', 'source/coffee/**/*.coffee', 'source/app/**/*.html'], ['compile']
+
+gulp.task 'serve', ->
+  runSequence(
+    ['build'],
+    ['webserver']
+    )
